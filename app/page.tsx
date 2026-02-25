@@ -1,8 +1,10 @@
 
 export default function Home(){
   return (
-    <div>
-    <h1 className="text-3xl">Hello, Next.js!</h1>
+    <div className="flex-center h-screen">
+      <h1 className="h1">
+        SkyVault - Best Storage you will ever find. 
+      </h1>
     </div>
   );
 }
