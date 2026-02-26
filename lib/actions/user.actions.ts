@@ -13,7 +13,7 @@
 import { createAdminClient} from "@/lib/appwrite"
 import { appwriteConfig } from "../appwrite/config";
 import { Query, ID } from "node-appwrite";
-import { parseStringify } from "../utils";
+import { parseStringify } from "@/lib/utils";
 
 const getUserByEmail = async (email: string) => {
     const {databases} = await createAdminClient();
@@ -21,8 +21,9 @@ const getUserByEmail = async (email: string) => {
     const result = await databases.listDocuments(
         appwriteConfig.databaseId,
         appwriteConfig.usersTableId,
-        [Query.equal("email", [email])]
+        [Query.equal("email", email)]
     );
+
     return result.total > 0 ? result.documents[0] : null;
 };
 
@@ -36,15 +37,15 @@ const sendEmailOTP = async ({email}: {email: string}) => {
 
     try {
         const session = await account.createEmailToken(ID.unique(), email);
-        return sessionStorage.userId;
+        return session.userId;
     } catch (error) {
         handleError(error, "Failed to send email")
     }
-}
+};
 
 
 
-
+//something going on here
 export const createAccount = async ({fullName, email}: {fullName: string , email: string }) =>{
     const existingUser = await getUserByEmail(email);
 

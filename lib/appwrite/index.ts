@@ -9,7 +9,7 @@ export const createSessionClient = async () => {
         .setEndpoint(appwriteConfig.endpointUrl)
         .setProject(appwriteConfig.projectId)
 
-    const session = (await cookies()).get('appwrite-session');
+    const session = (await cookies()).get("appwrite-session");
 
     if(!session || !session.value) throw new Error("No session");
 
@@ -27,6 +27,9 @@ export const createSessionClient = async () => {
 }
 
 export const createAdminClient = async () => {
+    console.log("Endpoint:", process.env.APPWRITE_ENDPOINT);
+    console.log("Project:", process.env.APPWRITE_PROJECT_ID);
+    console.log("Secret:", process.env.APPWRITE_SECRET_KEY);
     const client = new Client()
         .setEndpoint(appwriteConfig.endpointUrl)
         .setProject(appwriteConfig.projectId)
@@ -45,4 +48,4 @@ export const createAdminClient = async () => {
             return new Avatars(client);
         }
     }
-}
+};
