@@ -1,14 +1,4 @@
-'use server'; // to make sure this is never ran on the clients side
-
-/* create account flow
-1. the user enters full name and email
-2. check is the user already exists using that email entered, if user doesnt exists we create a new document 
-3. if user does not exists, procced and sent OTP verification to users email
-4. this will send a secret key for creating a session
-5. create a new user document if the user is a new user
-6. return the users accountID that will be used to complete the log in 
-7. vefify the OTP and autheticate the log in
-*/
+'use server'; 
 
 import { createAdminClient} from "@/lib/appwrite"
 import { appwriteConfig } from "../appwrite/config";
@@ -43,9 +33,6 @@ const sendEmailOTP = async ({email}: {email: string}) => {
     }
 };
 
-
-
-//something going on here
 export const createAccount = async ({fullName, email}: {fullName: string , email: string }) =>{
     const existingUser = await getUserByEmail(email);
 

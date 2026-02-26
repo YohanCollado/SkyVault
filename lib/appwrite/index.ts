@@ -28,8 +28,8 @@ export const createSessionClient = async () => {
 
 export const createAdminClient = async () => {
     console.log("Endpoint:", process.env.APPWRITE_ENDPOINT);
-    console.log("Project:", process.env.APPWRITE_PROJECT_ID);
-    console.log("Secret:", process.env.APPWRITE_SECRET_KEY);
+    console.log("Project:", process.env.APPWRITE_PROJECT);
+    console.log("Secret:", process.env.APPWRITE_KEY);
     const client = new Client()
         .setEndpoint(appwriteConfig.endpointUrl)
         .setProject(appwriteConfig.projectId)

@@ -68,6 +68,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
       setErrorMessage("Failed to create an account. Please try again later.")
     } finally {
       setIsLoading(false);
+      
     }
   }; 
 
