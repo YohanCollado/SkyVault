@@ -20,7 +20,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { createAccount } from '@/lib/actions/user.actions';
-//import OtpModal from "@/components/OTPModal"
+import OTPModal from '@/components/OTPModal';
 
 
 type FormType = "sign-in" | "sign-up";
@@ -60,7 +60,6 @@ const AuthForm = ({ type }: { type: FormType }) => {
         email: values.email,
       });
       
-
       setAccountId(user.accountId);
       console.log("account has been set")
 
@@ -157,6 +156,10 @@ const AuthForm = ({ type }: { type: FormType }) => {
           </div>
         </form>
       </Form>
+      {/* OTP Modal verification goes under here*/} 
+      {true && (
+        <OTPModal email={form.getValues("email")} accountId = {accountId}/>
+      )}
     </>
   );
 };
