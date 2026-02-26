@@ -19,12 +19,15 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { createAccount } from '@/lib/actions/user.actions';
+//import OtpModal from "@/components/OTPModal"
+
 
 type FormType = "sign-in" | "sign-up";
 
 const authFormSchema = (formType: FormType) => {
   return z.object({
-    email: z.string().email(),
+    email: z.email(),
     fullName:
       formType === "sign-up"
         ? z.string().min(2).max(50)
@@ -49,24 +52,24 @@ const AuthForm = ({ type }: { type: FormType }) => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     setErrorMessage("");
+    console.log("Creating account")
 
-    /*try {
-      const user =
-        type === "sign-up"
-          ? await createAccount({
-              fullName: values.fullName || "",
-              email: values.email,
-            })
-          : await signInUser({ email: values.email });
+    try {
+      const user = await createAccount({
+        fullName: values.fullName || "",
+        email: values.email,
+      });
+      
 
       setAccountId(user.accountId);
+      console.log("account has been set")
+
     } catch {
-      setErrorMessage("Failed to create account. Please try again.");
+      setErrorMessage("Failed to create an account. Please try again later.")
     } finally {
       setIsLoading(false);
     }
-      */
-  };
+  }; 
 
   return (
     <>
