@@ -23,8 +23,9 @@ import React from "react";
 import {Button} from "@/components/ui/button";
 import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
+import AutorenewIcon from '@mui/icons-material/Autorenew';
 
-const OTPModal = () => {
+const OTPModal = ({accountId, email}: {accountId: string; email: string}) => {
     const[isOpen, setIsOpen] = useState(true);
     const[password, setPassword] = useState('');
     const[isLoading, setIsLoading] = useState(false);
@@ -62,29 +63,35 @@ const OTPModal = () => {
                             <IoMdClose className="h-8 w-8" />
                         </button>
                     </AlertDialogTitle>
-                        <AlertDialogDescription>
-                            This action cannot be undone. This will permanently delete your account
-                            from our servers.
+                        <AlertDialogDescription className="subtitle-2 text-center text-light-100">
+                            Code has been sent to <span className="pld-1 text-brand">{email}</span>
                         </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <InputOTP maxLength={6}>
-                        <InputOTPGroup>
-                            <InputOTPSlot index={0} />
-                            <InputOTPSlot index={1} />
-                            <InputOTPSlot index={2} />
-                        </InputOTPGroup>
-                        <InputOTPSeparator />
-                        <InputOTPGroup>
-                            <InputOTPSlot index={3} />
-                            <InputOTPSlot index={4} />
-                            <InputOTPSlot index={5} />
+                </AlertDialogHeader>
+                        <InputOTP maxLength={6} value={password} onChange={setPassword}>
+                        <InputOTPGroup className="shad-otp">
+                            <InputOTPSlot index={0} className="shad-otp-slot"/>
+                            <InputOTPSlot index={1} className="shad-otp-slot"/>
+                            <InputOTPSlot index={2} className="shad-otp-slot"/>
+                            <InputOTPSlot index={3} className="shad-otp-slot"/>
+                            <InputOTPSlot index={4} className="shad-otp-slot"/>
+                            <InputOTPSlot index={5} className="shad-otp-slot"/>
                         </InputOTPGroup>
                     </InputOTP>
                     <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction>Continue</AlertDialogAction>
+                        <div className="flex w-full flex-col gap-4">
+                            <AlertDialogAction 
+                                onClick={handleSubmit} 
+                                className="shad-submit-btn h12" 
+                                type="button">Submit
+                                { isLoading && (
+                                    <div className="flex item-center gap-2 ml-2 animate-spin">
+                                        <AutorenewIcon/>
+                                    </div>
+                                )}
+                            </AlertDialogAction>
+                        </div>
                     </AlertDialogFooter>
-                    </AlertDialogContent>
+            </AlertDialogContent>
         </AlertDialog>
     )
 }
