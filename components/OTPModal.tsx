@@ -3,19 +3,16 @@
 import {
   AlertDialog,
   AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 
 import {
   InputOTP,
   InputOTPGroup,
-  InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp"
 
@@ -24,8 +21,12 @@ import {Button} from "@/components/ui/button";
 import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import AutorenewIcon from '@mui/icons-material/Autorenew';
+import { useRouter } from "next/navigation";
+import { sendEmailOTP, verifySecret } from "@/lib/actions/user.actions";
+
 
 const OTPModal = ({accountId, email}: {accountId: string; email: string}) => {
+    const router = useRouter();
     const[isOpen, setIsOpen] = useState(true);
     const[password, setPassword] = useState('');
     const[isLoading, setIsLoading] = useState(false);
@@ -35,10 +36,11 @@ const OTPModal = ({accountId, email}: {accountId: string; email: string}) => {
         e.preventDefault();
         setIsLoading(true);
 
-        //in this try we will call an API to veriyf the OTP
+        //in this try we will call an API to veriyf the OTP, under thi will ve the API to verify the user
         try {
-            
+            const sessionId = await verifySecret ({accountId, password});
 
+            if (sessionId) router.push("/");
         } catch (error){
             console.log("Failed to verify OTP", error);
         } 
@@ -48,7 +50,8 @@ const OTPModal = ({accountId, email}: {accountId: string; email: string}) => {
     
     const handleResendOtp = async () => {
         // call api to resend OTP
-    }
+        await sendEmailOTP ({email});
+    };
 
     return (
         <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
@@ -89,6 +92,17 @@ const OTPModal = ({accountId, email}: {accountId: string; email: string}) => {
                                     </div>
                                 )}
                             </AlertDialogAction>
+                            <div className="subtitle-2 mt-2 text-center text-light-100">
+                                Didn't get a code?
+                                <Button 
+                                type="button" 
+                                variant="link" 
+                                className="pl-1 text-brand" 
+                                onClick={handleResendOtp}
+                                >
+                                    Resend Code
+                                </Button>
+                            </div>
                         </div>
                     </AlertDialogFooter>
             </AlertDialogContent>

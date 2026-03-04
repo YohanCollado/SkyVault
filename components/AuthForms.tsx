@@ -61,6 +61,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
       });
       
       setAccountId(user.accountId);
+      
       console.log("account has been set")
 
     } catch {
@@ -157,7 +158,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
         </form>
       </Form>
       {/* OTP Modal verification goes under here*/} 
-      {true && (
+      {accountId && (
         <OTPModal email={form.getValues("email")} accountId = {accountId}/>
       )}
     </>
