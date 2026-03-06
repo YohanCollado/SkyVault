@@ -1,10 +1,11 @@
 'use server'; 
 
-import { createAdminClient} from "@/lib/appwrite"
+import { createAdminClient, createSessionClient} from "@/lib/appwrite"
 import { appwriteConfig } from "../appwrite/config";
 import { Query, ID } from "node-appwrite";
 import { parseStringify } from "@/lib/utils";
 import { cookies } from "next/headers"
+import { avatarPlaceholderUrl } from "@/constants";
 
 const getUserByEmail = async (email: string) => {
     const {databases} = await createAdminClient();
@@ -47,10 +48,10 @@ export const createAccount = async ({fullName, email}: {fullName: string , email
         appwriteConfig.databaseId,
         appwriteConfig.usersTableId,
         ID.unique(),{
+            accountId,
             fullName,
             email, 
-            avatar:"//www.kindpng.com/picc/m/207-2074624_white-gray-circle-avatar-png-transparent-png.png",
-            accountId,
+            avatar: avatarPlaceholderUrl,        
         },
       );
     }
@@ -75,5 +76,29 @@ export const verifySecret = async ({accountId, password}: {accountId: string, pa
 
     } catch(error) {
         handleError(error, "Failed to verify OTP");
+    }
+};
+
+export const getCurrentUser = async () => {
+
+    const sessionCookie = (await cookies()).get("appwrite-session")?.value;
+    if(!sessionCookie) return null;
+
+    try {
+        const {databases, account} = await createSessionClient();
+
+        const result = await account.get();
+
+        const user = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.usersTableId,
+            [Query.equal("accountId", result.$id),]
+        );
+
+        if(user.total <= 0) return null;
+        return parseStringify(user.documents[0]);
+    } catch (error) {
+        console.log("getCurrentUser failed, maybe no authentication:", error);
+        return null;
     }
 };

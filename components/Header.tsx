@@ -2,7 +2,7 @@ import React from "react";
 import Search from "@/components/Search"
 import FileUploader from "@/components/FileUploader"
 import {Button} from "@/components/ui/button";
-import { FaSignOutAlt } from "react-icons/fa";
+import { IoMdCloudUpload } from "react-icons/io";
 
 const Header = () => {
     return(
@@ -12,7 +12,7 @@ const Header = () => {
                 <FileUploader/>
                 <form>
                     <Button type="submit" className="sign-out-button">
-                        <FaSignOutAlt/>
+                        <IoMdCloudUpload />
                     </Button>
                 </form>
             </div>
