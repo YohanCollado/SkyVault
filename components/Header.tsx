@@ -2,7 +2,8 @@ import React from "react";
 import Search from "@/components/Search"
 import FileUploader from "@/components/FileUploader"
 import {Button} from "@/components/ui/button";
-import { IoMdCloudUpload } from "react-icons/io";
+import { FaSignOutAlt } from "react-icons/fa";
+import { signOutUser } from "@/lib/actions/user.actions";
 
 const Header = () => {
     return(
@@ -10,9 +11,13 @@ const Header = () => {
             <Search/>
             <div className="header-wrapper">
                 <FileUploader/>
-                <form>
+                <form action={async () => {
+                    'use server';
+
+                    await signOutUser();
+                }}>
                     <Button type="submit" className="sign-out-button">
-                        <IoMdCloudUpload />
+                        <FaSignOutAlt />
                     </Button>
                 </form>
             </div>

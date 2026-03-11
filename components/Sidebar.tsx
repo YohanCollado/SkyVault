@@ -9,12 +9,14 @@ import { cn } from "@/lib/utils";
 import { avatarPlaceholderUrl } from "@/constants";
 
 
-const Sidebar = () => {
+interface Props {
+    fullName: string;
+    avatar: string;
+    email: string;
+}
+
+const Sidebar = ({fullName, avatar, email}: Props) => {
     const pathname = usePathname();
-    
-    // Placeholder user info; replace these with real user data (props, context, or auth session)
-    const fullName = "";
-    const email = "";
 
     return (
         <aside className="sidebar">
@@ -22,8 +24,8 @@ const Sidebar = () => {
                 <Image 
                     src="/logo.png"
                     alt="logo"
-                    width={160}
-                    height={50}
+                    width={90}
+                    height={60}
                     className="hidden h-auto lg:block"
                 />
             </Link>
@@ -46,7 +48,7 @@ const Sidebar = () => {
                 <Image
                     src="/icon.png"
                     alt="logo"
-                    width={506}
+                    width={504}
                     height={418}
                     className="w-full"
                 />

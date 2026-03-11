@@ -21,13 +21,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { createAccount } from '@/lib/actions/user.actions';
 import OTPModal from '@/components/OTPModal';
+import { signInUser } from '@/lib/actions/user.actions';
 
 
 type FormType = "sign-in" | "sign-up";
 
 const authFormSchema = (formType: FormType) => {
   return z.object({
-    email: z.email(),
+    email: z.string().email(),
     fullName:
       formType === "sign-up"
         ? z.string().min(2).max(50)
@@ -55,12 +56,15 @@ const AuthForm = ({ type }: { type: FormType }) => {
     console.log("Creating account")
 
     try {
-      const user = await createAccount({
+        const user = 
+        type === 'sign-up' ? await createAccount({
         fullName: values.fullName || "",
         email: values.email,
-      });
+        })
+        :await signInUser({email: values.email}  )
       
       setAccountId(user.accountId);
+    
       
       console.log("account has been set")
 
