@@ -4,13 +4,10 @@ import React, { useCallback, useState } from "react";
 
 import { useDropzone } from "react-dropzone";
 import { Button } from "@/components/ui/button";
-import { cn, convertFileToUrl, getFileType } from "@/lib/utils";
 import Image from "next/image";
-import Thumbnail from "@/components/Thumbnail";
-import { MAX_FILE_SIZE } from "@/constants";
-import { useToast } from "@/hooks/use-toast";
-import { uploadFile } from "@/lib/actions/file.actions";
 import { usePathname } from "next/navigation";
+import { FaCloudUploadAlt } from "react-icons/fa";
+import { cn } from "@/lib/utils";
 
 interface Props {
   ownerId: string;
@@ -19,8 +16,8 @@ interface Props {
 }
 
 const FileUploader = ({ownerId, accountId, className }: Props) => {
-  const path = usePathname();
-  const {toast} = useToast();
+  //const path = usePathname();
+  //const {toast} = useToast();
   const [files, setFiles] = useState<File[]>([])
 
   const onDrop = useCallback(acceptedFiles => {
@@ -32,10 +29,19 @@ const FileUploader = ({ownerId, accountId, className }: Props) => {
     <div {...getRootProps()} className="cursor-pointer">
       <input {...getInputProps()} />
       <Button 
-        type="button"  
-        className={cn("uploader-button", ClassName)}>
-        <FaCloudUploadAlt height={24} width={24}/>
+        type="submit"  
+        className={cn("uploader-button", className)}>
+        <FaCloudUploadAlt/>
+        <p>Upload</p>
       </Button>
+      {files.length > 0 && (
+        <ul className="uploader-preview-list">
+          <h4 className="h4 text-light-100">Uploading</h4>
+          {files.map((file, index) => {
+            const {type, extension } = getFileType(file.name);
+          })}
+        </ul>
+      )} 
       {
         isDragActive ?
           <p>Drop the files here ...</p> :
