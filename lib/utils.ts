@@ -1,6 +1,5 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { FaFilePdf } from "react-icons/fa6";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -126,20 +125,20 @@ export const getFileIcon = (
   switch (extension) {
     // Document
     case "pdf":
-      return "/assets/icons/file-pdf.svg";
+      return "/icons/file-pdf.webp";
     case "doc":
-      return "/assets/icons/file-doc.svg";
+      return "/icons/file-doc.png";
     case "docx":
-      return "/assets/icons/file-docx.svg";
+      return "/icons/file-docx.png";
     case "csv":
-      return "/assets/icons/file-csv.svg";
+      return "/icons/file-csv.webp";
     case "txt":
-      return "/assets/icons/file-txt.svg";
+      return "/icons/file-txt.jpg";
     case "xls":
     case "xlsx":
-      return "/assets/icons/file-document.svg";
+      return "/icons/file-document.jpeg";
     case "svg":
-      return "/assets/icons/file-image.svg";
+      return "/icons/file-image.svg";
     // Video
     case "mkv":
     case "mov":
@@ -150,7 +149,7 @@ export const getFileIcon = (
     case "webm":
     case "m4v":
     case "3gp":
-      return "/assets/icons/file-video.svg";
+      return "/icons/file-video.jpg";
     // Audio
     case "mp3":
     case "mpeg":
@@ -162,20 +161,20 @@ export const getFileIcon = (
     case "m4a":
     case "aiff":
     case "alac":
-      return "/assets/icons/file-audio.svg";
+      return "/icons/file-audio.webp";
 
     default:
       switch (type) {
         case "image":
-          return "/assets/icons/file-image.svg";
+          return "/icons/file-image.svg";
         case "document":
-          return "/assets/icons/file-document.svg";
+          return "/icons/file-document.jpeg";
         case "video":
-          return "/assets/icons/file-video.svg";
+          return "/icons/file-video.jpg";
         case "audio":
-          return "/assets/icons/file-audio.svg";
+          return "/icons/file-audio.webp";
         default:
-          return "/assets/icons/file-other.svg";
+          return "/icon.png";
       }
   }
 };
@@ -183,11 +182,11 @@ export const getFileIcon = (
 // APPWRITE URL UTILS
 // Construct appwrite file URL - https://appwrite.io/docs/apis/rest#images
 export const constructFileUrl = (bucketFileId: string) => {
-  return `${process.env.APPWRITE_ENDPOINT}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_BUCKET}/files/${bucketFileId}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT}`;
+  return `${process.env.APPWRITE_ENDPOINT}/storage/buckets/${process.env.APPWRITE_BUCKET}/files/${bucketFileId}/view?project=${process.env.APPWRITE_PROJECT}`;
 };
 
 export const constructDownloadUrl = (bucketFileId: string) => {
-  return `${process.env.APPWRITE_ENDPOINT}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_BUCKET}/files/${bucketFileId}/download?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT}`;
+  return `${process.env.APPWRITE_ENDPOINT}/storage/buckets/${process.env.APPWRITE_BUCKET}/files/${bucketFileId}/download?project=${process.env.APPWRITE_PROJECT}`;
 };
 
 // DASHBOARD UTILS
@@ -197,14 +196,14 @@ export const getUsageSummary = (totalSpace: any) => {
       title: "Documents",
       size: totalSpace.document.size,
       latestDate: totalSpace.document.latestDate,
-      icon: "/assets/icons/file-document-light.svg",
+      icon: "/icons/file-document.jpeg",
       url: "/documents",
     },
     {
       title: "Images",
       size: totalSpace.image.size,
       latestDate: totalSpace.image.latestDate,
-      icon: "/assets/icons/file-image-light.svg",
+      icon: "/icons/file-image.svg",
       url: "/images",
     },
     {
@@ -214,14 +213,14 @@ export const getUsageSummary = (totalSpace: any) => {
         totalSpace.video.latestDate > totalSpace.audio.latestDate
           ? totalSpace.video.latestDate
           : totalSpace.audio.latestDate,
-      icon: "/assets/icons/file-video-light.svg",
+      icon: "/icons/file-video.jpg",
       url: "/media",
     },
     {
       title: "Others",
       size: totalSpace.other.size,
       latestDate: totalSpace.other.latestDate,
-      icon: "/assets/icons/file-other-light.svg",
+      icon: "/icon.png",
       url: "/others",
     },
   ];
